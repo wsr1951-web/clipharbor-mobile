@@ -22,7 +22,7 @@ function createManager(dataDir, vendorDir) {
     if (process.env.YOUTUBE_POT_HOME) {
       args.splice(args.indexOf('--no-plugin-dirs'), 1);
       args.push('--plugin-dirs', 'default', '--js-runtimes', 'node:/usr/local/bin/node',
-        '--extractor-args', 'youtube:player_client=mweb',
+        '--extractor-args', 'youtube:player_client=mweb;fetch_pot=always',
         '--extractor-args', `youtubepot-bgutilscript:server_home=${process.env.YOUTUBE_POT_HOME}`);
     }
     return [...args, '--max-filesize', String(MAX_BYTES), '--match-filters', 'duration <= 1200'];
@@ -204,3 +204,4 @@ if (require.main === module) {
   process.on('SIGTERM', stop); process.on('SIGINT', stop);
 }
 module.exports = { createApp };
+
