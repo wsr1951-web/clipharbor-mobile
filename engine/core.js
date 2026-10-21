@@ -52,20 +52,32 @@ function optionsOf(options = {}) {
 function formatArgs(options) {
   const { quality, format } = optionsOf(options);
   if (format === 'mp3') return ['-f', 'bestaudio/best', '-x', '--audio-format', 'mp3', '--audio-quality', '0'];
-  const cap = quality === 'best' ? '' : `[height<=${quality}]`;
-  if (format === 'mp4') return ['-f', `bv${cap}[ext=mp4]+ba[ext=m4a]/b${cap}[ext=mp4]/bv${cap}+ba/b${cap}`, '-S', 'vcodec:h264,acodec:aac', '--merge-output-format', 'mp4', '--remux-video', 'mp4'];
+  // Resolution is the shorter edge: a 720x1280 Reel is also 720p.
+  // Facebook's progressive streams may omit their dimensions entirely.
+  const cap = quality === 'best' ? '' : `[height<=?${quality}]`;
+  const videoCaps = quality === 'best' ? [''] : [`[height<=${quality}]`, `[width<=${quality}]`];
+  if (format === 'mp4') {
+    const selectors = [
+      ...videoCaps.map(c => `bv${c}[ext=mp4]+ba[ext=m4a]`),
+      `b${cap}[ext=mp4]`,
+      ...(quality === 'best' ? [] : [`b[width<=${quality}][ext=mp4]`]),
+      ...videoCaps.map(c => `bv${c}+ba`), `b${cap}`,
+      ...(quality === 'best' ? [] : [`b[width<=${quality}]`])
+    ];
+    return ['-f', selectors.join('/'), '-S', 'vcodec:h264,acodec:aac', '--merge-output-format', 'mp4', '--remux-video', 'mp4'];
+  }
   return ['-f', `bv${cap}+ba/b${cap}`, '--merge-output-format', 'mkv'];
 }
 function friendlyError(raw) {
   const s = String(raw);
-  if (/cookies|log.?in|sign.?in|private|authentication|confirm.*bot|Fresh cookies/i.test(s)) return '這支影片需要登入或平台驗證。可到設定選擇你自己的 Cookies 檔案後重試；平台限制仍可能影響下載。';
+  if (/cookies|log.?in|sign.?in|private|authentication|confirm.*bot|Fresh cookies/i.test(s)) return '平台要求登入或驗證，目前免費雲端無法取得這支影片。請改用公開影片連結，或使用電腦版。';
   if (/429|too many requests|rate.limit/i.test(s)) return '平台暫時限制請求，請稍後再試。';
   if (/403|forbidden|blocked/i.test(s)) return '平台拒絕存取。可能是驗證、地區或暫時限制，請稍後再試或更新核心。';
-  if (/Requested format.*not available/i.test(s)) return '沒有符合這個畫質的格式，請改選「來源最佳」再試。';
+  if (/Requested format.*not available/i.test(s)) return '平台未提供可用的影片格式，請換一支公開影片或使用電腦版。';
   if (/not available|unavailable|not found|404|removed|deleted/i.test(s)) return '影片無法取得，可能已刪除、不是公開影片，或目前地區無法觀看。';
   if (/ENOSPC|No space left|not enough space/i.test(s)) return '儲存空間不足，請清出空間或更換下載資料夾。';
   if (/timed out|timeout|ENOTFOUND|network|Unable to download/i.test(s)) return '網路或平台連線失敗，請確認連線後重試。';
-  return '下載未完成。請查看錯誤詳情，或更新下載核心後重試。';
+  return '目前免費雲端無法取得這支影片，可能是平台限制或連結已失效。請換一支公開影片或使用電腦版。';
 }
 function killTree(child) {
   if (!child?.pid) return;
