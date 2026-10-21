@@ -2,7 +2,7 @@ FROM denoland/deno:bin-2.9.6 AS deno
 FROM node:22-bookworm-slim
 RUN apt-get update && apt-get install -y --no-install-recommends ffmpeg python3 python3-venv ca-certificates \
     && python3 -m venv /opt/tools \
-    && /opt/tools/bin/pip install --no-cache-dir 'yt-dlp[default]==2026.8.19' \
+    && /opt/tools/bin/pip install --no-cache-dir 'yt-dlp[default]==2026.10.10.233141.dev0' \
     && rm -rf /var/lib/apt/lists/*
 COPY --from=deno /deno /usr/local/bin/deno
 WORKDIR /app
@@ -21,3 +21,4 @@ ENV NODE_ENV=production PORT=10000 DATA_DIR=/data VENDOR_DIR=/app/vendor
 USER node
 EXPOSE 10000
 CMD ["node", "server.cjs"]
+
