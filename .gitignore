@@ -1,0 +1,6 @@
+runtime/
+node_modules/
+.env
+.openai/local/
+*.zip
+*.log

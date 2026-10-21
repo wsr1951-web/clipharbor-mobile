@@ -1,0 +1,13 @@
+services:
+  - type: web
+    name: clipharbor-mobile
+    runtime: docker
+    plan: free
+    region: singapore
+    healthCheckPath: /health
+    autoDeployTrigger: off
+    envVars:
+      - key: ACCESS_CODE
+        generateValue: true
+      - key: SERVICE_TOKEN
+        generateValue: true

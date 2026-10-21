@@ -1,0 +1,13 @@
+<!doctype html>
+<html lang="zh-Hant"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"><meta name="theme-color" content="#0d1817"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"><title>拾影 · 手機影片下載</title><meta name="description" content="貼上影片連結，下載並儲存到手機。"><link rel="icon" href="/icon.svg"><link rel="manifest" href="/manifest.webmanifest"><link rel="stylesheet" href="/style.css"><script src="/app.js" defer></script></head>
+<body><main>
+  <header><a href="/" class="brand"><img src="/icon.svg" alt=""><span>拾影<small>CLIPHARBOR</small></span></a><span class="mobile-badge">手機版 <i></i></span></header>
+  <section class="hero"><div class="eyebrow">SAVE A LITTLE INSPIRATION</div><h1>喜歡的影片，<br>隨手<span>留下來。</span></h1><p>貼上連結，就能儲存到你的 iPhone。</p></section>
+  <section id="login" class="panel" hidden><div class="section-title"><span class="step">↗</span><h2>開啟你的下載空間</h2></div><p class="hint">第一次使用請輸入專屬使用碼，防止別人佔用你的免費額度。</p><form id="login-form"><label for="code">使用碼</label><input id="code" type="password" autocomplete="current-password" placeholder="輸入你的使用碼" required><button type="submit" id="unlock" class="primary">進入下載空間 <span>→</span></button></form></section>
+  <section id="composer" class="panel" hidden><div class="section-title"><span class="step">01</span><h2>貼上影片連結</h2></div><form id="download-form"><label class="sr-only" for="url">影片連結</label><textarea id="url" rows="3" placeholder="https://…&#10;也可以直接貼上分享文字" autocomplete="off" autocapitalize="off" spellcheck="false" required></textarea><div class="format-line"><span><i class="dot"></i> MP4 相容格式</span><span>最高 720p</span></div><button id="submit" class="primary" type="submit">開始下載 <span>↓</span></button></form><p class="hint compact">單支影片最長 20 分鐘。完成後請儘快存到手機。</p></section>
+  <p id="message" class="message" role="status" aria-live="polite">正在連線… 免費主機首次啟動可能需要約一分鐘。</p>
+  <section id="jobs" aria-label="影片下載任務"></section>
+  <section class="supported"><span class="small-heading">支援的公開影片連結</span><div class="platforms"><span>YouTube</span><span>Instagram</span><span>Facebook</span><span>TikTok</span><span>抖音</span><span class="bili">Bilibili</span></div><p>平台驗證、地區或登入限制，可能影響部分影片。</p></section>
+  <details class="help"><summary>怎麼存進 iPhone「照片」？<span>＋</span></summary><ol><li>影片完成後，先預覽確認內容。</li><li>點「分享／儲存」，在 iPhone 分享選單選「儲存影片」。</li><li>如果沒有這個選項，先下載到「檔案」，再開啟影片，點分享並選「儲存影片」。</li></ol><p>想放到主畫面：Safari → 分享 → 加入主畫面。</p></details>
+  <footer><span>拾起片刻，留住靈感。</span><p>影片暫存最多 30 分鐘；免費主機休眠或重啟也會清除。<br>請只下載你有權儲存的內容。</p></footer>
+</main></body></html>
